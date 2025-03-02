@@ -63,9 +63,7 @@ export const Toolbar = () => {
                   key={channel._id}
                   onSelect={() => onChannelClick(channel._id)}
                 >
-                  {/* <Link href={`${channel._id}`}> */}
                   {channel.name}
-                  {/* </Link> */}
                 </CommandItem>
               ))}
             </CommandGroup>
@@ -78,9 +76,7 @@ export const Toolbar = () => {
                   key={member._id}
                   onSelect={() => onMemberClick(member._id)}
                 >
-                  {/* <Link href={`/workspace/${workspaceId}/member/${member._id}`}> */}
                   {member.user.name}
-                  {/* </Link> */}
                 </CommandItem>
               ))}
             </CommandGroup>
