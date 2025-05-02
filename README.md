@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 ## Getting Started
 
-First, run the development server:
+1. Make sure **Git** and **NodeJS** is installed.
+2. Clone this repository to your local computer.
+3. Create `.env.local` file in **root** directory.
+4. Contents of `.env.local`:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```env
+# .env.local
+
+# disabled next.js telemetry
+NEXT_TELEMETRY_DISABLED=1
+
+# deployment used by `npx convex dev` or `bunx convex dev`
+CONVEX_DEPLOYMENT=dev:<deployment-name> # team: <team-name>, project: <project-name>
+
+# convex public url
+NEXT_PUBLIC_CONVEX_URL="https://<deployment-name>.convex.cloud"
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Convex Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Visit the Convex website: [https://convex.dev](https://convex.dev)
+- Log in to your Convex account or sign up if you don't have one.
+- Once logged in, navigate to the "Deployments" section.
+- Create a new deployment or select an existing one.
+- Replace `<deployment-name>`, `<team-name>`, and `<project-name>` in the `.env.local` file with your Convex deployment details.
+- In the Convex dashboard, find the public URL associated with your deployment.
+- Replace `<your-convex-url>` in the `.env.local` file with your Convex public URL.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+6. Initialise Convex Auth Development Keys
 
-## Learn More
+- Run the initialization command: `npx @convex-dev/auth` to setup your project for authenticating via the library.
+- Make sure your **SITE_URL** environment variable is set correctly. This is the URL where your app is hosted, e.g., `http://localhost:3000` for development.
+- Your project authentication is setup for logging in with credentials.
 
-To learn more about Next.js, take a look at the following resources:
+7. Setting Up Google OAuth
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    **Step 1: Create a Google Cloud Project**
+  
+    - Go to the [Google Cloud Console](https://console.cloud.google.com/).
+    - Create a new project (if you don’t have one) by clicking on **Select a project** > **New Project**, and give it a name.
+    - Enable the **Google OAuth 2.0** API by navigating to **APIs & Services > Library** and searching for **Google OAuth 2.0**.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    **Step 2: Create OAuth Credentials**
+    
+    - In the **APIs & Services > Credentials** section, click **Create Credentials** and choose **OAuth 2.0 Client IDs**.
+    - Select **Web Application** as the application type.
+    - Set the **Authorized Redirect URI** to your Convex callback URL. The origin (domain) of the callback URL is your Convex backend's **HTTP Actions URL**. You can find it in your Convex dashboard and it is similar to your `CONVEX_URL`, but with `.site` instead of `.cloud`.
 
-## Deploy on Vercel
+    - After setting the redirect URI, click **Create**. You’ll be provided with a **Client ID** and **Client Secret**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    **Step 3: Set Google OAuth Environment Variables in Convex**
+    To configure Google OAuth in your Convex backend, run the following commands with your actual values:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npx convex env set AUTH_GOOGLE_CLIENT_ID your-google-client-id
+npx convex env set AUTH_GOOGLE_CLIENT_SECRET your-google-client-secret
+```
+
+8. Setting Up GitHub OAuth
+
+    **Step 1: Create a GitHub OAuth Application**
+    
+    - Go to [GitHub Developer Settings](https://github.com/settings/developers).
+    - Under **OAuth Apps**, click **New OAuth App**.
+    - Fill in the following:
+    
+      - **Application Name**: Name your app (e.g., "Slack Clone").
+      - **Homepage URL**: Your app’s homepage URL, like `http://localhost:3000` for local development.
+      - **Authorization Callback URL**: Set this to your Convex callback URL (Similar to Google OAuth **Authorized Redirect URI**).
+    
+    - After registering the app, you’ll get a **Client ID** and **Client Secret**.
+
+    **Step 2: Set GitHub OAuth Environment Variables in Convex**
+    
+    - To configure GitHub OAuth in your Convex backend, run the following commands with your actual values:
+    
+    ```bash
+    npx convex env set AUTH_GITHUB_ID your-github-client-id
+    npx convex env set AUTH_GITHUB_SECRET your-github-client-secret
+    ```
+    
+9. Install Project Dependencies using `npm install --legacy-peer-deps`.
+
+10. Now run `npm run dev`.
