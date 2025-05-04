@@ -1,3 +1,6 @@
+## Looking for test credentials?
+They’re available at the bottom of this page for quick access — no signup required.
+
 ## Getting Started
 
 1. Make sure **Git** and **NodeJS** is installed.
@@ -85,3 +88,12 @@ npx convex env set AUTH_GOOGLE_CLIENT_SECRET your-google-client-secret
 9. Install Project Dependencies using `npm install --legacy-peer-deps`.
 
 10. Now run `npm run dev`.
+
+## Test accounts 
+Test credentials for First account :- 
+   email :- test@collabify.com
+   password :- Test@12345
+   
+Test credentials for Second account :- 
+   email :- test2@collabify.com
+   password :- Test@54321 
